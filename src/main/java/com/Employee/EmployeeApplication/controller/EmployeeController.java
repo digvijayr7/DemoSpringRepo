@@ -32,4 +32,16 @@ public class EmployeeController {
        employeeService.CreateEmployee(employee);
 
     }
+    @RequestMapping(value = "/employees/{id}",method =RequestMethod.PUT )
+    public void updateEmployee(@PathVariable int id ,@RequestBody Employee employee){
+       employeeService.updateEmployee(employee);
+
+    }
+    @RequestMapping(value = "/employees/{id}",method =RequestMethod.DELETE )
+
+    public List<Employee> deleteEmployee(@PathVariable int id){
+       employeeService.deleteEmployee(id);
+       return employeeService.getEmployeeList();
+
+    }
 }
