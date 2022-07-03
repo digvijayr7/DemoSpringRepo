@@ -1,6 +1,8 @@
 package com.Employee.EmployeeApplication.service;
 
 import com.Employee.EmployeeApplication.entity.Employee;
+import com.Employee.EmployeeApplication.repository.employeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,18 +17,21 @@ public class EmployeeService {
             new Employee(3,"third","junwane")
 
     ));
-
+  @Autowired
+  employeeRepository employeeRepository;
     public List<Employee> getEmployeeList() {
-        return employeeList;
+        //return employeeList;
+        return employeeRepository.findAll();
     }
     public Employee getEmployee(int id){
-        return employeeList.stream().filter(e-> (e.getEmployeeId()==id)).findFirst().get();
+       // return employeeList.stream().filter(e-> (e.getEmployeeId()==id)).findFirst().get();
+          return  employeeRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
     }
     public void CreateEmployee(Employee employee){
-        employeeList.add(employee);
+        employeeRepository.save(employee);
     }
     public void updateEmployee(Employee employee){
-        List<Employee> tempEmployee = new ArrayList<>();
+       /* List<Employee> tempEmployee = new ArrayList<>();
 
             for (Employee emp : employeeList)
             { if (emp.getEmployeeId()==employee.getEmployeeId())
@@ -37,9 +42,12 @@ public class EmployeeService {
             tempEmployee.add(emp);
             }
             this.employeeList=tempEmployee;
+
+        */
+        employeeRepository.save(employee);
     }
     public void deleteEmployee(int id){
-        List<Employee> tempEmployee = new ArrayList<>();
+        /*List<Employee> tempEmployee = new ArrayList<>();
         for(Employee emp : employeeList){
             if (emp.getEmployeeId()==id)
                 continue;
@@ -47,6 +55,9 @@ public class EmployeeService {
 
         }
         this.employeeList=tempEmployee;
+
+         */
+        employeeRepository.delete(employeeRepository.getById(id));
 
 
     }
